@@ -1,1 +1,6 @@
-from chatbot.wsgi import application
+import os
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'car_service_chatbot.settings')
+
+application = get_wsgi_application()
