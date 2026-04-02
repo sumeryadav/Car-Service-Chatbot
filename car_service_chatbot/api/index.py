@@ -1,0 +1,1 @@
+from chatbot.wsgi import application
