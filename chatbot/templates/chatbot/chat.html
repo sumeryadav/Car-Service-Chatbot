@@ -1,0 +1,74 @@
+<!-- chatbot/templates/chatbot/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Mechanic Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-4">
+    <h2 class="text-xl font-bold mb-4 text-center">🚗 Home Mechanic Chatbot</h2>
+
+    <!-- Chat messages -->
+    <div id="chat-box" class="h-96 overflow-y-auto space-y-2 p-2 border rounded bg-gray-50"></div>
+
+    <!-- Input form -->
+    <form id="chat-form" class="mt-4 flex">
+      <input type="text" id="chat-input" placeholder="Type your message..."
+             class="flex-grow border p-2 rounded">
+      <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded">
+        Send
+      </button>
+    </form>
+  </div>
+
+  <script>
+    async function sendMessage(message) {
+      // Show user message
+      let chatBox = document.getElementById("chat-box");
+      chatBox.innerHTML += `<div class="text-right"><span class="bg-green-200 px-2 py-1 rounded">${message}</span></div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Send to backend
+      let response = await fetch("/chatbot/api/", {
+        method: "POST",
+        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+        body: new URLSearchParams({message: message})
+      });
+      let data = await response.json();
+
+      // Show bot response
+      chatBox.innerHTML += `<div class="text-left"><span class="bg-gray-200 px-2 py-1 rounded">${data.response}</span></div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // If options exist, show them as buttons
+      if (data.options && data.options.length > 0) {
+        let buttons = data.options.map(opt =>
+          `<button onclick="sendMessage('${opt}')"
+                   class="bg-blue-400 text-white px-3 py-1 rounded m-1">${opt}</button>`
+        ).join("");
+        chatBox.innerHTML += `<div class="text-left">${buttons}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+
+    // Handle form submit
+    document.getElementById("chat-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let input = document.getElementById("chat-input");
+      let message = input.value.trim();
+      if (message) {
+        sendMessage(message);
+      }
+      input.value = "";
+    });
+
+    // Start conversation automatically
+    window.onload = () => {
+      sendMessage("hello");
+    };
+  </script>
+</body>
+</html>

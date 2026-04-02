@@ -1,0 +1,10 @@
+[
+  {"model": "chatbot.service", "pk": 1, "fields": {"name": "Car Servicing", "price": 1500}},
+  {"model": "chatbot.service", "pk": 2, "fields": {"name": "Car Washing", "price": 500}},
+  {"model": "chatbot.service", "pk": 3, "fields": {"name": "Engine Tuning", "price": 2000}},
+  {"model": "chatbot.service", "pk": 4, "fields": {"name": "Inside Cleaning", "price": 800}},
+  {"model": "chatbot.service", "pk": 5, "fields": {"name": "Air Filter Cleaning", "price": 600}},
+  {"model": "chatbot.service", "pk": 6, "fields": {"name": "Electrical Scanning", "price": 2500}},
+  {"model": "chatbot.service", "pk": 7, "fields": {"name": "Engine Oil Change", "price": 1200}},
+  {"model": "chatbot.service", "pk": 8, "fields": {"name": "AC Cleaning", "price": 1000}}
+]
