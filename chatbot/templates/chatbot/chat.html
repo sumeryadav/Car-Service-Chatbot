@@ -34,7 +34,9 @@
       // Send to backend
       let response = await fetch("/chatbot/api/", {
         method: "POST",
-        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+        headers: {
+  "Content-Type": "application/x-www-form-urlencoded"
+},
         body: new URLSearchParams({message: message})
       });
       let data = await response.json();
